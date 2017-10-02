@@ -1,0 +1,28 @@
+{
+  "name": "auth-mean-stack",
+  "version": "1.0.0",
+  "description": "MEAN Stack Auth",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guinardpaul/MEAN-Stack-Authentication-Application.git"
+  },
+  "author": "Paul GUINARD",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guinardpaul/MEAN-Stack-Authentication-Application/issues"
+  },
+  "homepage": "https://github.com/guinardpaul/MEAN-Stack-Authentication-Application#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.0",
+    "mongoose": "^4.11.13",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.12.1",
+    "serve-favicon": "^2.4.5"
+  }
+}
