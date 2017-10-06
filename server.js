@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const router = express.Router();
 const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -8,6 +9,8 @@ const logger = require('morgan');
 const favicon = require('serve-favicon');
 const config = require('./config/database');
 const port = process.env.PORT || 3000;
+
+const auth = require('./app/routes/authentication')(router);
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.uri, { useMongoClient: true }, (err) => {
@@ -34,6 +37,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Set Static Folder
 app.use(express.static(path.join(__dirname, '/client')));
+
+// Routes
+app.use('/auth', auth);
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/client/src/index.html');
