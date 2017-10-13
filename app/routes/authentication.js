@@ -24,7 +24,7 @@ module.exports = (router) => {
       });
     } else {
       let user = new User({
-        username: req.body.username,
+        username: req.body.username.toLowerCase(),
         password: req.body.password,
         email: req.body.email.toLowerCase()
       });
@@ -46,6 +46,11 @@ module.exports = (router) => {
               res.json({
                 success: false,
                 message: err.errors.username.message
+              });
+            } else if (err.errors.password) {
+              res.json({
+                success: false,
+                message: err.errors.password.message
               });
             }
           }

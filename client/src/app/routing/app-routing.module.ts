@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { LoginComponent } from '../auth/login/login.component';
-import { RegisterComponent } from '../auth/register/register.component';
-import { ProfileComponent } from '../auth/profile/profile.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { LoginComponent } from '../auth/components/login/login.component';
+import { RegisterComponent } from '../auth/components/register/register.component';
+import { ProfileComponent } from '../auth/components/profile/profile.component';
 import { BlogComponent } from '../blog/blog/blog.component';
 import { HomeComponent } from '../blog/home/home.component';
 
@@ -17,7 +18,8 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes)],
-  exports: [RouterModule]
+  imports: [ RouterModule.forRoot(appRoutes) ],
+  declarations: [ NavbarComponent ],
+  exports: [ RouterModule, NavbarComponent ]
 })
 export class AppRoutingModule { }

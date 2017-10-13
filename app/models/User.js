@@ -1,9 +1,9 @@
-
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs');
 
+// Validator functions
 let validUsernameChecker = (username) => {
   if (!username) {
     return false;
@@ -16,7 +16,7 @@ let validUsernameChecker = (username) => {
 let lengthUsernameChecker = (username) => {
   if (!username) {
     return false;
-  } else if (username.length < 0 || username.length > 20) {
+  } else if (username.length < 3 || username.length > 20) {
     return false;
   }
   return true;
@@ -25,7 +25,7 @@ let lengthUsernameChecker = (username) => {
 let lengthEmailChecker = (email) => {
   if (!email) {
     return false;
-  } else if (email.length < 0 || email.length > 40) {
+  } else if (email.length < 5 || email.length > 40) {
     return false;
   }
   return true;
@@ -40,6 +40,15 @@ let validEmailChecker = (email) => {
   }
 };
 
+let lengthPasswordChecker = (password) => {
+  if (!password) {
+    return false;
+  } else if (password.length < 3 || password.length > 40) {
+    return false;
+  }
+  return true;
+};
+
 // Validators
 const usernameValidator = [
   {
@@ -47,7 +56,7 @@ const usernameValidator = [
     message: 'Username not valid'
   }, {
     validator: lengthUsernameChecker,
-    message: 'Username must have less than 20 characters'
+    message: 'Username must have less than 20 characters and more than 3'
   }
 ];
 
@@ -57,10 +66,18 @@ const emailValidator = [
     message: 'Email not valid'
   }, {
     validator: lengthEmailChecker,
-    message: 'Email must have less than 40 characters'
+    message: 'Email must have less than 40 characters and more than 5'
   }
 ];
 
+const passwordValidator = [
+  {
+    validator: lengthPasswordChecker,
+    message: 'Password must have less than 40 characters and more than 3'
+  }
+]
+
+// User Schema
 const userSchema = new Schema({
   username: {
     type: String,
@@ -70,7 +87,8 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    validate: passwordValidator
   },
   email: {
     type: String,
@@ -81,6 +99,7 @@ const userSchema = new Schema({
   }
 });
 
+// Password middleware : hash password
 userSchema.pre('save', function (next) {
   if (!this.isModified('password')) {
     return next();
@@ -92,6 +111,7 @@ userSchema.pre('save', function (next) {
   });
 });
 
+// Compare password & hash : used for login
 userSchema.methods.comparePassword = (password) => {
   return bcrypt.compareSync(password, this.password);
 };
