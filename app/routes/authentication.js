@@ -1,5 +1,7 @@
 const User = require('../models/User');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const config = require('../../config/database');
 
 module.exports = (router) => {
 
@@ -72,7 +74,56 @@ module.exports = (router) => {
   /**
    * Login User
    */
-  router.get('login', (res, send, next) => {
+  router.post('/login', (req, res, next) => {
+    if (!req.body.username) {
+      res.json({
+        success: false,
+        message: 'username not provided'
+      });
+    } else if (!req.body.password) {
+      res.json({
+        success: false,
+        message: 'password not provided'
+      });
+    } else {
+      User.findOne({ username: req.body.username }, (err, user) => {
+        if (err) {
+          res.json({
+            success: false,
+            message: err
+          });
+        } else {
+          if (!user) {
+            res.json({
+              success: false,
+              message: 'username ' + req.body.username + ' doesn\'t exists'
+            });
+          } else {
+            const validatePassword = user.comparePassword(req.body.password);
+            if (!validatePassword) {
+              res.json({
+                success: false,
+                message: 'Wrong password'
+              });
+            } else {
+              const token = jwt.sign({
+                userId: user._id
+              }, config.secret, { expiresIn: '24h' })
+
+              res.json({
+                success: true,
+                message: 'logged in',
+                obj: { username: user.username },
+                token: token
+              });
+            }
+          }
+        }
+      });
+    }
+  });
+
+  router.get('/profile', (req, res, next) => {
 
   });
 

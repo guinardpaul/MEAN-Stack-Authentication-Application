@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 // Services
 import { AuthValidatorService } from '../../services/auth-validator.service';
@@ -20,14 +21,18 @@ export class RegisterComponent implements OnInit {
   public get passwords() { return this.registerForm.controls[ 'passwords' ] as FormControl; }
   public get password() { return this.passwords.get('password').value as string; }
   public get confirmPassword() { return this.passwords.get('confirmPassword').value as string; }
-  user = new User();
+  user: User;
+  processing: boolean;
 
   constructor(
     private _fb: FormBuilder,
     private _authValidator: AuthValidatorService,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _router: Router
   ) {
     this.createForm();
+    this.user = new User();
+    this.processing = false;
   }
 
   createForm() {
@@ -67,10 +72,15 @@ export class RegisterComponent implements OnInit {
       email: this.email,
       password: this.password
     };
-    console.log(this.user);
+
     this._authService.register(this.user)
       .subscribe(data => {
+        console.log('register...');
         console.log(data);
+
+        setTimeout(() => {
+          this._router.navigate([ '/login' ]);
+        }, 1000);
       }, err => {
         console.log(err);
       });

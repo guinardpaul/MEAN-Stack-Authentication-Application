@@ -112,7 +112,7 @@ userSchema.pre('save', function (next) {
 });
 
 // Compare password & hash : used for login
-userSchema.methods.comparePassword = (password) => {
+userSchema.methods.comparePassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
