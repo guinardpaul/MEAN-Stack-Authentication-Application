@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 
 // Services
+import { FlashMsgService } from '../../../shared/flash-msg.service';
 import { AuthValidatorService } from '../../services/validators/auth-validator.service';
 import { AuthService } from '../../services/auth.service';
 
@@ -28,6 +29,7 @@ export class RegisterComponent implements OnInit {
     private _fb: FormBuilder,
     private _authValidator: AuthValidatorService,
     private _authService: AuthService,
+    private _flashMsg: FlashMsgService,
     private _router: Router
   ) {
     this.createForm();
@@ -77,7 +79,7 @@ export class RegisterComponent implements OnInit {
       .subscribe(data => {
         console.log('register...');
         console.log(data);
-
+        this._flashMsg.displayMsg(data.obj.username + ' registered', 'alert-success', 2000);
         setTimeout(() => {
           this._router.navigate([ '/login' ]);
         }, 1000);

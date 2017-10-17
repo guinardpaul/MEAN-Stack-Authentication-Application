@@ -4,7 +4,10 @@ import { Router } from '@angular/router';
 
 import { User } from '../../models/User';
 
+import { FlashMsgService } from '../../../shared/flash-msg.service';
 import { AuthService } from '../../services/auth.service';
+
+import { AuthGuard } from '../../../guards/auth.guard';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +17,7 @@ import { AuthService } from '../../services/auth.service';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   user: User;
+  previousUrl;
 
   get username(): string { return this.loginForm.get('username').value as string; }
   get password(): string { return this.loginForm.get('password').value as string; }
@@ -21,6 +25,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _authService: AuthService,
+    private _flashMsg: FlashMsgService,
+    private _authGuard: AuthGuard,
     private _router: Router
   ) {
     this.createForm();
@@ -51,12 +57,17 @@ export class LoginComponent implements OnInit {
         if (data.success) {
           console.log(data.message);
           this._authService.storeUserData(data.token, data.obj);
-
+          this._flashMsg.displayMsg(data.obj.username + ' logged in', 'alert-success', 2000);
           setTimeout(() => {
-            this._router.navigate([ '/home' ]);
+            if (this.previousUrl) {
+              this._router.navigate([ this.previousUrl ]);
+            } else {
+              this._router.navigate([ '/' ]);
+            }
           }, 1000);
         } else {
           console.log(data.message);
+          this._flashMsg.displayMsg(data.message, 'alert-danger', 2000);
         }
       }, err => {
         console.log(err);
@@ -64,6 +75,11 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this._authGuard.redirectUrl) {
+      this._flashMsg.displayMsg('You must be logged in to biew that page', 'alert-danger', 2000);
+      this.previousUrl = this._authGuard.redirectUrl;
+      this._authGuard.redirectUrl = undefined;
+    }
   }
 
 }

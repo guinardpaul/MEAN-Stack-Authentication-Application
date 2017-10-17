@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { tokenNotExpired } from 'angular2-jwt';
 
 import { User } from '../models/User';
 
@@ -39,8 +40,10 @@ export class AuthService {
     return this._http.post(`${this.baseUrl}/login`, user);
   }
 
-  logout(): Observable<any> {
-    return null;
+  logout() {
+    this.authToken = null; // Set token to null
+    this.user = null; // Set user to null
+    localStorage.clear();
   }
 
   storeUserData(token, user) {
@@ -53,6 +56,10 @@ export class AuthService {
   getProfile(): Observable<any> {
     this.createHeaders();
     return this._http.get(`${this.baseUrl}/profile`, { headers: this.headers });
+  }
+
+  loggedIn() {
+    return tokenNotExpired();
   }
 
 }
