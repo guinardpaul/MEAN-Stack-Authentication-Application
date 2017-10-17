@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { User } from '../models/User';
@@ -10,12 +10,25 @@ export class AuthService {
   private apiUrl: string;
   public authToken;
   public user;
+  private headers: HttpHeaders;
 
   constructor(
     private _http: HttpClient
   ) {
     this.baseUrl = 'http://localhost:3000/auth';
     this.apiUrl = '/api/users';
+  }
+
+  createHeaders() {
+    this.getToken();
+    this.headers = new HttpHeaders({
+      'content-type': 'application/json',
+      'authorization': this.authToken
+    });
+  }
+
+  getToken() {
+    this.authToken = localStorage.getItem('token');
   }
 
   register(user: User): Observable<any> {
@@ -26,6 +39,10 @@ export class AuthService {
     return this._http.post(`${this.baseUrl}/login`, user);
   }
 
+  logout(): Observable<any> {
+    return null;
+  }
+
   storeUserData(token, user) {
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
@@ -33,8 +50,9 @@ export class AuthService {
     this.user = user;
   }
 
-  getProfile() {
-
+  getProfile(): Observable<any> {
+    this.createHeaders();
+    return this._http.get(`${this.baseUrl}/profile`, { headers: this.headers });
   }
 
 }

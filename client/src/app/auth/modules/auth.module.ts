@@ -10,7 +10,7 @@ import { ProfileComponent } from '../components/profile/profile.component';
 
 // Services
 import { AuthService } from '../services/auth.service';
-import { AuthValidatorService } from '../services/auth-validator.service';
+import { AuthValidatorService } from '../services/validators/auth-validator.service';
 
 @NgModule({
   imports: [
