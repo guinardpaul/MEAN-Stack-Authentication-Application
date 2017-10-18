@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../../services/auth.service';
 
-import { User } from '../../models/User';
+import { User } from '../../../shared/models/User';
 
 @Component({
   selector: 'app-profile',

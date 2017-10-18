@@ -3,12 +3,12 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 
 // Services
-import { FlashMsgService } from '../../../shared/flash-msg.service';
+import { FlashMsgService } from '../../../shared/services/flash-msg.service';
 import { AuthValidatorService } from '../../services/validators/auth-validator.service';
 import { AuthService } from '../../services/auth.service';
 
 // Models
-import { User } from '../../models/User';
+import { User } from '../../../shared/models/User';
 
 @Component({
   selector: 'app-register',

@@ -13,6 +13,8 @@ import { RegisterComponent } from '../auth/components/register/register.componen
 import { ProfileComponent } from '../auth/components/profile/profile.component';
 import { BlogComponent } from '../blog/components/blog/blog.component';
 import { HomeComponent } from '../blog/components/home/home.component';
+import { BlogManagementComponent } from '../admin/components/blog-management/blog-management.component';
+import { UserManagementComponent } from '../admin/components/user-management/user-management.component';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -20,6 +22,8 @@ const appRoutes: Routes = [
   { path: 'register', component: RegisterComponent, canActivate: [ NotAuthGuard ] },
   { path: 'blog', component: BlogComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [ AuthGuard ] },
+  { path: 'blog-management', component: BlogManagementComponent },
+  { path: 'user-management', component: UserManagementComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 
