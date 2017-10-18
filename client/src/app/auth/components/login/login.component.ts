@@ -7,7 +7,7 @@ import { User } from '../../models/User';
 import { FlashMsgService } from '../../../shared/flash-msg.service';
 import { AuthService } from '../../services/auth.service';
 
-import { AuthGuard } from '../../../guards/auth.guard';
+import { AuthGuard } from '../../../routing/guards/auth.guard';
 
 @Component({
   selector: 'app-login',
@@ -59,6 +59,7 @@ export class LoginComponent implements OnInit {
           this._authService.storeUserData(data.token, data.obj);
           this._flashMsg.displayMsg(data.obj.username + ' logged in', 'alert-success', 2000);
           setTimeout(() => {
+
             if (this.previousUrl) {
               this._router.navigate([ this.previousUrl ]);
             } else {

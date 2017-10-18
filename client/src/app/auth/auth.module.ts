@@ -4,13 +4,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 // Components
-import { RegisterComponent } from '../components/register/register.component';
-import { LoginComponent } from '../components/login/login.component';
-import { ProfileComponent } from '../components/profile/profile.component';
-
-// Services
-import { AuthService } from '../services/auth.service';
-import { AuthValidatorService } from '../services/validators/auth-validator.service';
+import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/login/login.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   imports: [
@@ -27,10 +23,6 @@ import { AuthValidatorService } from '../services/validators/auth-validator.serv
     RegisterComponent,
     LoginComponent,
     ProfileComponent
-  ],
-  providers: [
-    AuthService,
-    AuthValidatorService
   ]
 })
 export class AuthModule { }

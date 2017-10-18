@@ -9,8 +9,8 @@ import { User } from '../models/User';
 export class AuthService {
   private baseUrl: string;
   private apiUrl: string;
-  public authToken;
-  public user;
+  private authToken;
+  private user;
   private headers: HttpHeaders;
 
   constructor(
@@ -20,7 +20,7 @@ export class AuthService {
     this.apiUrl = '/api/users';
   }
 
-  createHeaders() {
+  private createAuthenticationHeaders() {
     this.getToken();
     this.headers = new HttpHeaders({
       'content-type': 'application/json',
@@ -28,7 +28,7 @@ export class AuthService {
     });
   }
 
-  getToken() {
+  private getToken() {
     this.authToken = localStorage.getItem('token');
   }
 
@@ -54,7 +54,7 @@ export class AuthService {
   }
 
   getProfile(): Observable<any> {
-    this.createHeaders();
+    this.createAuthenticationHeaders();
     return this._http.get(`${this.baseUrl}/profile`, { headers: this.headers });
   }
 

@@ -1,11 +1,12 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
+        <!-- TODO: trouver un nom pour l'appli -->
         <a class="navbar-brand" routerLink="home">Authentication MEAN Stack</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="collapse navbar-collapse" class="marge-collapsed" id="navbarCollapse">
 
             <ul class="navbar-nav navbar-left">
                 <li class="nav-item" routerLinkActive="active">
@@ -14,7 +15,7 @@
             </ul>
 
             <ul class="navbar-nav navbar-right">
-                <li class="nav-item" *ngIf="_authService.loggedIn()" routerLinkActive="active">
+                <li class="nav-item" routerLinkActive="active">
                     <a class="nav-link" routerLink="blog">Blog</a>
                 </li>
                 <li class="nav-item" *ngIf="_authService.loggedIn()" routerLinkActive="active">
@@ -30,7 +31,7 @@
                     <a class="nav-link cursor" (click)="onLogout()">Logout</a>
                 </li>
                 <li>
-                    <form class="form-inline">
+                    <form class="form-inline marge-searchBar">
                         <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                     </form>

@@ -96,6 +96,11 @@ const userSchema = new Schema({
     required: true,
     lowercase: true,
     validate: emailValidator
+  },
+  admin: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 });
 
